@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAKE HUB Bakery | College Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        /* Custom styles to complement Tailwind */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cake-card {
+            transition: transform 0.3s ease;
+        }
+
+        .cake-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Smooth transition for tab switching */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Custom loader */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Print styles for PDF export */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                width: 100%;
+                height: auto;
+            }
+
+            .page-section {
+                display: block;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            html,
+            body {
+                background-color: white;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-10 top-0 no-print">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-pink-600" onclick="showPage('home')">CAKE HUB</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-gray-700 hover:text-pink-500" onclick="showPage('home')">Home</a>
+                <a href="#" class="text-gray-700 hover:text-pink-500" onclick="showPage('catalog')">Our Cakes</a>
+                <a href="#" class="text-gray-700 hover:text-pink-500" onclick="showPage('about')">About Us</a>
+                <a href="#" class="text-gray-700 hover:text-pink-500" onclick="showPage('contact')">Contact</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-gray-700 hover:text-pink-500" onclick="showPage('cart')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="bg-pink-500 text-white rounded-full px-2 py-1 text-xs">0</span>
+                </a>
+                <a href="#" id="user-account-link" class="text-gray-700 hover:text-pink-500"
+                    onclick="showPage('login')">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-500 focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100" onclick="showPage('home')">Home</a>
+            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100" onclick="showPage('catalog')">Our Cakes</a>
+            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100" onclick="showPage('about')">About Us</a>
+            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100" onclick="showPage('contact')">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="bg-pink-100 bg-opacity-50">
+        <div class="container mx-auto px-6 pt-24 pb-12">
+            <!-- Home Page -->
+            <section id="home" class="page-section active">
+                <!-- Hero Section -->
+                <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-8 mb-12 border-2 border-pink-500">
+                    <div class="flex flex-col md:flex-row items-center justify-between w-full">
+                        <!-- Text Section -->
+                        <div class="md:w-1/2 mb-8 md:mb-0">
+                            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Delicious Handcrafted Cakes
+                            </h1>
+                            <p class="text-gray-600 mb-6">Made with love, for every occasion. Customize your cake with
+                                our wide variety of flavors and designs.</p>
+                            <button onclick="showPage('catalog')"
+                                class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                                Explore Our Cakes
+                            </button>
+                        </div>
+
+                        <!-- Image Section -->
+                        <div class="md:w-1/2 flex justify-center">
+                            <div
+                                class="w-full max-w-md h-64 md:h-96 bg-pink-100 rounded-lg overflow-hidden flex items-center justify-center">
+                                <img src="https://images.pexels.com/photos/2144200/pexels-photo-2144200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                    alt="Cake" class="object-cover w-full h-full" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Cakes -->
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Featured Cakes</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Featured items will be loaded here by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Testimonials -->
+                <div class="mb-12 bg-white rounded-xl p-8 shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">What Our Customers Say</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="h-12 w-12 rounded-full bg-pink-100 flex items-center justify-center">
+                                    <i class="fas fa-user text-pink-500"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-800">Raj</h4>
+                                    <div class="text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600">"The birthday cake for my daughter was absolutely stunning! Not
+                                only
+                                did it look amazing, but it tasted delicious too. Will definitely order again."</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="h-12 w-12 rounded-full bg-pink-100 flex items-center justify-center">
+                                    <i class="fas fa-user text-pink-500"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-800">Harman</h4>
+                                    <div class="text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600">"I ordered a custom wedding cake and it exceeded all our
+                                expectations.
+                                Our guests couldn't stop talking about how delicious it was!"</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="h-12 w-12 rounded-full bg-pink-100 flex items-center justify-center">
+                                    <i class="fas fa-user text-pink-500"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-800">Anchal</h4>
+                                    <div class="text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600">"The cupcakes I ordered for our office party were a huge hit!
+                                Fresh,
+                                moist, and the perfect amount of sweetness. Everyone loved them!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Section -->
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Our Services</h2>
+                    <div class="flex flex-col md:flex-row gap-10 items-center flex-grow w-full justify-center">
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                            <div
+                                class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-birthday-cake text-2xl text-pink-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Custom Cakes</h3>
+                            <p class="text-gray-600">Design your perfect cake for any occasion with our custom cake
+                                service.
+                            </p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                            <div
+                                class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-utensils text-2xl text-pink-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Events & Catering</h3>
+                            <p class="text-gray-600">We provide dessert catering for weddings, corporate events, and
+                                parties.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cake Catalog -->
+            <section id="catalog" class="page-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Our Cake Collection</h1>
+
+                <!-- Filters -->
+                <div class="mb-8 bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Filter Cakes</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Category</label>
+                            <select id="category-filter" class="w-full p-2 border border-gray-300 rounded">
+                                <option value="all">All Categories</option>
+                                <option value="cakes">Cakes</option>
+                                <option value="donuts">Donuts</option>
+                                <option value="cupcakes">Cupcakes</option>
+                                <option value="pastries">Pastries</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Flavor</label>
+                            <select id="flavor-filter" class="w-full p-2 border border-gray-300 rounded">
+                                <option value="all">All Flavors</option>
+                                <option value="chocolate">Chocolate</option>
+                                <option value="vanilla">Vanilla</option>
+                                <option value="strawberry">Strawberry</option>
+                                <option value="red-velvet">Red Velvet</option>
+                                <option value="cheesecake">Cheesecake</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Price Range</label>
+                            <select id="price-filter" class="w-full p-2 border border-gray-300 rounded">
+                                <option value="all">All Prices</option>
+                                <option value="0-200">₹0 - ₹200</option>
+                                <option value="200-500">₹200 - ₹500</option>
+                                <option value="500-1000">₹500 - ₹1000</option>
+                                <option value="1000+">₹1000+</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button id="apply-filters"
+                                class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded w-full">
+                                Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cakes Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="cakes-grid">
+                    <!-- Cakes will be loaded here by JavaScript -->
+                    <div class="loader"></div>
+                </div>
+            </section>
+
+
+            <!-- About Us -->
+            <section id="about" class="page-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">About CAKE HUB</h1>
+
+                <div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/2 md:pr-8 mb-6 md:mb-0">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Story</h2>
+                            <p class="text-gray-600 mb-4">
+                                CAKE HUB Bakery was founded in 2015 by a passionate pastry chef with a dream of
+                                creating delicious, handcrafted cakes for every special occasion.
+                            </p>
+                            <p class="text-gray-600 mb-4">
+                                What started as a small home bakery has now grown into a beloved local business, serving
+                                hundreds of happy customers each month. We put love and care into every cake we create,
+                                using only the finest ingredients and time-tested recipes.
+                            </p>
+                            <p class="text-gray-600">
+                                Our mission is simple: to sweeten life's special moments with cakes that not only look
+                                stunning but taste amazing too.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center">
+                            <div
+                                class="w-full max-w-md h-64 md:h-96 bg-pink-100 rounded-lg overflow-hidden flex items-center justify-center">
+                                <img src="https://www.franciscosegarra.com/wp-content/uploads/2024/01/pastry-shop-decoration.jpg"
+                                    alt="Cake" class="object-cover w-full h-full" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Values</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="bg-pink-100 rounded-full w-12 h-12 flex items-center justify-center">
+                                    <i class="fas fa-heart text-pink-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Passion</h3>
+                                <p class="text-gray-600">We pour our heart and soul into every cake we make, treating
+                                    each
+                                    one as a masterpiece.</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="bg-pink-100 rounded-full w-12 h-12 flex items-center justify-center">
+                                    <i class="fas fa-leaf text-pink-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Quality</h3>
+                                <p class="text-gray-600">We use only premium, fresh ingredients to ensure our cakes
+                                    taste as
+                                    good as they look.</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="bg-pink-100 rounded-full w-12 h-12 flex items-center justify-center">
+                                    <i class="fas fa-paint-brush text-pink-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Creativity</h3>
+                                <p class="text-gray-600">We love bringing unique cake designs to life, turning your
+                                    vision
+                                    into reality.</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="bg-pink-100 rounded-full w-12 h-12 flex items-center justify-center">
+                                    <i class="fas fa-smile text-pink-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Customer Satisfaction</h3>
+                                <p class="text-gray-600">Your happiness is our priority, and we go above and beyond to
+                                    exceed your expectations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Page -->
+            <section id="contact" class="page-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Contact Us</h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-sm p-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Send Us a Message</h2>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Your Name</label>
+                                <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Email Address</label>
+                                <input type="email" class="w-full p-2 border border-gray-300 rounded" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" class="w-full p-2 border border-gray-300 rounded">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Subject</label>
+                                <select class="w-full p-2 border border-gray-300 rounded" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="order">Order Inquiry</option>
+                                    <option value="custom">Custom Cake Request</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Your Message</label>
+                                <textarea rows="5" class="w-full p-2 border border-gray-300 rounded"
+                                    required></textarea>
+                            </div>
+                            <button type="submit"
+                                class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Visit Our Bakery</h2>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="mr-3 mt-1">
+                                        <i class="fas fa-map-marker-alt text-pink-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800">Address</h3>
+                                        <p class="text-gray-600">123 Cake Street, Sweet City, SC 12345</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="mr-3 mt-1">
+                                        <i class="fas fa-phone-alt text-pink-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800">Phone</h3>
+                                        <p class="text-gray-600">(555) 123-4567</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="mr-3 mt-1">
+                                        <i class="fas fa-envelope text-pink-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800">Email</h3>
+                                        <p class="text-gray-600">info@cakehub.com</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="mr-3 mt-1">
+                                        <i class="fas fa-clock text-pink-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800">Business Hours</h3>
+                                        <p class="text-gray-600">Monday - Friday: 9am - 6pm</p>
+                                        <p class="text-gray-600">Saturday: 10am - 4pm</p>
+                                        <p class="text-gray-600">Sunday: Closed</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Follow Us</h2>
+                            <div class="flex space-x-4">
+                                <a href="#"
+                                    class="bg-pink-100 hover:bg-pink-200 text-pink-500 h-12 w-12 rounded-full flex items-center justify-center transition duration-300">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#"
+                                    class="bg-pink-100 hover:bg-pink-200 text-pink-500 h-12 w-12 rounded-full flex items-center justify-center transition duration-300">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#"
+                                    class="bg-pink-100 hover:bg-pink-200 text-pink-500 h-12 w-12 rounded-full flex items-center justify-center transition duration-300">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#"
+                                    class="bg-pink-100 hover:bg-pink-200 text-pink-500 h-12 w-12 rounded-full flex items-center justify-center transition duration-300">
+                                    <i class="fab fa-pinterest"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Login/Register Page -->
+            <section id="login" class="page-section">
+                <div class="max-w-2xl mx-auto">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Account Access</h1>
+
+                    <div class="bg-white rounded-lg shadow-sm p-8">
+                        <!-- Tabs -->
+                        <div class="flex border-b border-gray-200 mb-6">
+                            <button id="login-tab"
+                                class="px-4 py-2 font-medium text-sm leading-5 rounded-t-lg focus:outline-none mr-2 bg-pink-100 text-pink-600 border-b-2 border-pink-500">
+                                Login
+                            </button>
+                            <button id="register-tab"
+                                class="px-4 py-2 font-medium text-sm leading-5 rounded-t-lg focus:outline-none text-gray-500 hover:text-gray-700">
+                                Register
+                            </button>
+                        </div>
+
+                        <!-- Login Form -->
+                        <div id="login-content" class="tab-content active">
+                            <form id="login-form" class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Email Address</label>
+                                    <input type="email" id="login-email"
+                                        class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Password</label>
+                                    <input type="password" id="login-password"
+                                        class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="h-4 w-4 text-pink-500">
+                                        <label class="ml-2 text-sm text-gray-600">Remember me</label>
+                                    </div>
+                                    <a href="#" class="text-sm text-pink-500 hover:text-pink-600">Forgot password?</a>
+                                </div>
+                                <button type="button" onclick="handleLogin()"
+                                    class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                    Sign In
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Register Form -->
+                        <div id="register-content" class="tab-content">
+                            <form id="register-form" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">First Name</label>
+                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Last Name</label>
+                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Email Address</label>
+                                    <input type="email" class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Phone Number</label>
+                                    <input type="tel" class="w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Password</label>
+                                    <input type="password" class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Confirm Password</label>
+                                    <input type="password" class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-pink-500" required>
+                                    <label class="ml-2 text-sm text-gray-600">I agree to the Terms of Service and
+                                        Privacy
+                                        Policy</label>
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                    Create Account
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shopping Cart Page -->
+            <section id="cart" class="page-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Your Shopping Cart</h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2">
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <div id="cart-items">
+                                <!-- Cart items will be loaded here by JavaScript -->
+                                <div class="text-center py-8 text-gray-500" id="empty-cart-message">
+                                    <i class="fas fa-shopping-cart text-4xl mb-4"></i>
+                                    <p>Your cart is empty</p>
+                                    <button onclick="showPage('catalog')"
+                                        class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                        Shop Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+                            <div class="space-y-3 mb-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Subtotal</span>
+                                    <span class="font-medium" id="cart-subtotal">₹0.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Shipping</span>
+                                    <span class="font-medium" id="cart-shipping">₹0.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Tax</span>
+                                    <span class="font-medium" id="cart-tax">₹0.00</span>
+                                </div>
+                                <div class="border-t pt-3 flex justify-between">
+                                    <span class="font-bold">Total</span>
+                                    <span class="font-bold text-xl" id="cart-total">₹0.00</span>
+                                </div>
+                            </div>
+                            <button onclick="proceedToCheckout()"
+                                class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                id="checkout-button" disabled>
+                                Proceed to Checkout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Checkout Page -->
+            <section id="checkout" class="page-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2">
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">Shipping Information</h2>
+                            <form id="shipping-form" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">First Name</label>
+                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Last Name</label>
+                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Email Address</label>
+                                    <input type="email" class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Phone Number</label>
+                                    <input type="tel" class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Address</label>
+                                    <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">City</label>
+                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">State</label>
+                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">ZIP Code</label>
+                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Delivery Instructions (Optional)</label>
+                                    <textarea rows="2" class="w-full p-2 border border-gray-300 rounded"></textarea>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">Payment Method</h2>
+                            <form id="payment-form" class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Card Number</label>
+                                    <input type="text" placeholder="XXXX XXXX XXXX XXXX"
+                                        class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="md:col-span-2">
+                                        <label class="block text-gray-700 mb-2">Expiration Date</label>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <input type="text" placeholder="MM"
+                                                class="w-full p-2 border border-gray-300 rounded" required>
+                                            <input type="text" placeholder="YY"
+                                                class="w-full p-2 border border-gray-300 rounded" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">CVV</label>
+                                        <input type="text" placeholder="XXX"
+                                            class="w-full p-2 border border-gray-300 rounded" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Name on Card</label>
+                                    <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+                            <div id="checkout-items" class="mb-4">
+                                <!-- Checkout items will be loaded here by JavaScript -->
+                            </div>
+                            <div class="space-y-3 mb-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Subtotal</span>
+                                    <span class="font-medium" id="checkout-subtotal">₹0.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Shipping</span>
+                                    <span class="font-medium" id="checkout-shipping">₹0.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Tax</span>
+                                    <span class="font-medium" id="checkout-tax">₹0.00</span>
+                                </div>
+                                <div class="border-t pt-3 flex justify-between">
+                                    <span class="font-bold">Total</span>
+                                    <span class="font-bold text-xl" id="checkout-total">₹0.00</span>
+                                </div>
+                            </div>
+                            <button onclick="placeOrder()"
+                                class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded transition duration-300">
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Order Confirmation Page -->
+            <section id="order-confirmation" class="page-section">
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-sm p-8 text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-check text-2xl text-green-500"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-800 mb-2">Order Confirmed!</h1>
+                        <p class="text-gray-600 mb-6">Thank you for your order. We've received your order and will begin
+                            processing it right away.</p>
+
+                        <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">Order #<span id="order-number">12345</span>
+                            </h2>
+                            <div class="space-y-3 text-left">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Order Date:</span>
+                                    <span class="font-medium" id="order-date">June 15, 2023</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Estimated Delivery:</span>
+                                    <span class="font-medium" id="order-delivery">June 18, 2023</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Shipping Address:</span>
+                                    <span class="font-medium text-right" id="order-address">123 Main St, Anytown, CA
+                                        12345</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Payment Method:</span>
+                                    <span class="font-medium" id="order-payment">Credit Card (****1234)</span>
+                                </div>
+                                <div class="border-t pt-3 flex justify-between">
+                                    <span class="font-bold">Total:</span>
+                                    <span class="font-bold" id="order-total">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                            <button onclick="showPage('home')"
+                                class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                Return to Home
+                            </button>
+                            <button onclick="trackOrder()"
+                                class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded transition duration-300">
+                                Track Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Dashboard -->
+            <section id="admin" class="page-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
+
+                <!-- Admin Tabs -->
+                <div class="bg-white rounded-lg shadow-sm mb-8">
+                    <div class="border-b border-gray-200">
+                        <nav class="flex -mb-px">
+                            <button id="admin-orders-tab"
+                                class="admin-tab active py-4 px-6 border-b-2 border-pink-500 font-medium text-sm text-pink-600 focus:outline-none">
+                                <i class="fas fa-shopping-bag mr-2"></i> Orders
+                            </button>
+                            <button id="admin-products-tab"
+                                class="admin-tab py-4 px-6 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none">
+                                <i class="fas fa-birthday-cake mr-2"></i> Products
+                            </button>
+                            <button id="admin-customers-tab"
+                                class="admin-tab py-4 px-6 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none">
+                                <i class="fas fa-users mr-2"></i> Customers
+                            </button>
+                            <button id="admin-settings-tab"
+                                class="admin-tab py-4 px-6 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none">
+                                <i class="fas fa-cog mr-2"></i> Settings
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Orders Tab Content -->
+                <div id="admin-orders-content" class="admin-tab-content active">
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Recent Orders</h2>
+                            <div class="flex space-x-2">
+                                <input type="text" placeholder="Search orders..."
+                                    class="p-2 border border-gray-300 rounded">
+                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Order ID</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Customer</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Date</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Status</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Total</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">#1001</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">John Smith</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">June 15, 2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$89.99</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
+                                            <a href="#" class="text-pink-600 hover:text-pink-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">#1002</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Sarah Johnson</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">June 14, 2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Processing</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$42.50</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
+                                            <a href="#" class="text-pink-600 hover:text-pink-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">#1003</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Michael Brown</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">June 13, 2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Shipped</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$125.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
+                                            <a href="#" class="text-pink-600 hover:text-pink-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-6">
+                            <div class="text-sm text-gray-500">Showing 1-3 of 24 orders</div>
+                            <div class="flex space-x-2">
+                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded">
+                                    Previous
+                                </button>
+                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Tab Content -->
+                <div id="admin-products-content" class="admin-tab-content">
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Product Management</h2>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded">
+                                <i class="fas fa-plus mr-2"></i> Add New Cake
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Image</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Product Name</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Category</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Price</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Stock</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-12 h-12 bg-pink-200 rounded"></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Chocolate Dream Cake</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Birthday</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$42.99</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">15</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-12 h-12 bg-pink-200 rounded"></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Strawberry Delight</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Seasonal</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$38.50</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">8</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-12 h-12 bg-pink-200 rounded"></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Wedding Elegance</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Wedding</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$199.99</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">3</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customers Tab Content -->
+                <div id="admin-customers-content" class="admin-tab-content">
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Customer Management</h2>
+                            <div class="flex space-x-2">
+                                <input type="text" placeholder="Search customers..."
+                                    class="p-2 border border-gray-300 rounded">
+                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Name</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Email</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Phone</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Orders</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Total Spent</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">John Smith</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">john@example.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">(555) 123-4567</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">3</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$245.97</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
+                                            <a href="#" class="text-pink-600 hover:text-pink-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">Sarah Johnson</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">sarah@example.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">(555) 987-6543</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">1</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$42.50</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
+                                            <a href="#" class="text-pink-600 hover:text-pink-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">Michael Brown</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">michael@example.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">(555) 555-5555</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">2</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">$179.99</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
+                                            <a href="#" class="text-pink-600 hover:text-pink-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab Content -->
+                <div id="admin-settings-content" class="admin-tab-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">General Settings</h2>
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-
+    
+    
+                                    <input type=" text" value="CAKE HUB Bakery"
+                                        class="w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Store Email</label>
+                                    <input type="email" value="info@sweetdelights.com"
+                                        class="w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Phone Number</label>
+                                    <input type="tel" value="(555) 123-4567"
+                                        class="w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Address</label>
+                                    <textarea rows="3"
+                                        class="w-full p-2 border border-gray-300 rounded">123 Cake Street, Sweet City, SC 12345</textarea>
+                                </div>
+                                <button type="submit"
+                                    class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                    Save Changes
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">Shipping Settings</h2>
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Shipping Method</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded">
+                                        <option>Standard Shipping</option>
+                                        <option>Express Shipping</option>
+                                        <option>Free Local Delivery</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Standard Shipping Cost</label>
+                                    <input type="text" value="$10.00" class="w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Express Shipping Cost</label>
+                                    <input type="text" value="$25.00" class="w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Free Shipping Threshold</label>
+                                    <input type="text" value="$100.00"
+                                        class="w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-pink-500" checked>
+                                    <label class="ml-2 text-gray-700">Enable free local delivery</label>
+                                </div>
+                                <button type="submit"
+                                    class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                    Save Changes
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cake Details Modal -->
+            <div id="cake-modal"
+                class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+                <div class="bg-white rounded-lg w-11/12 max-w-4xl max-h-90vh overflow-y-auto">
+                    <div class="relative">
+                        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                        <div class="p-6" id="cake-modal-content">
+                            <!-- Cake details will be loaded here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 no-print">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">CAKE HUB</h3>
+                    <p class="text-gray-400">Handcrafted cakes for every occasion. Made with love and the finest
+                        ingredients.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('home')">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('catalog')">Our
+                                Cakes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('about')">About Us</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('contact')">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> 123 Cake Street, Sweet City</li>
+                        <li><i class="fas fa-phone-alt mr-2"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope mr-2"></i> info@cakehub.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="text-sm font-bold mb-2">Subscribe to our newsletter</h4>
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="p-2 rounded-l w-full text-gray-800">
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white p-2 rounded-r">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 CAKE HUB Bakery. All rights reserved. College Project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Sample data for cakes
+        const cakesData = [
+            {
+                id: 1,
+                name: "Chocolate Dream Cake",
+                price: 500,
+                category: "cakes",
+                flavor: "chocolate",
+                description: "Three layers of moist chocolate cake filled with chocolate ganache and covered with chocolate buttercream frosting.",
+                ingredients: ["Flour", "Sugar", "Cocoa Powder", "Butter", "Eggs", "Milk", "Vanilla Extract"],
+                featured: true,
+                stock: 15,
+                image: "https://images.unsplash.com/photo-1694974907073-ddaf7e15849f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 2,
+                name: "Strawberry Delight",
+                price: 380,
+                category: "cupcakes",
+                flavor: "strawberry",
+                description: "Light vanilla sponge cake layered with fresh strawberries and whipped cream, topped with strawberry glaze.",
+                ingredients: ["Flour", "Sugar", "Strawberries", "Whipped Cream", "Eggs", "Butter", "Vanilla Extract"],
+                featured: true,
+                stock: 8,
+                image: "https://images.unsplash.com/photo-1622621746668-59fb299bc4d7?q=80&w=1233&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 3,
+                name: "Wedding Elegance",
+                price: 999,
+                category: "cakes",
+                flavor: "vanilla",
+                description: "Three-tier white cake with delicate vanilla buttercream frosting and elegant sugar flower decorations.",
+                ingredients: ["Flour", "Sugar", "Butter", "Eggs", "Vanilla Extract", "Almond Extract", "Milk"],
+                featured: false,
+                stock: 3,
+                image: "https://images.unsplash.com/photo-1608538242850-dad61fa8b3f2?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 4,
+                name: "Red Velvet Supreme",
+                price: 459,
+                category: "cakes",
+                flavor: "red-velvet",
+                description: "Luxurious red velvet cake with cream cheese frosting and chocolate shavings.",
+                ingredients: ["Flour", "Sugar", "Cocoa Powder", "Buttermilk", "Red Food Coloring", "Cream Cheese", "Butter"],
+                featured: true,
+                stock: 10,
+                image: "https://plus.unsplash.com/premium_photo-1713920189815-876dbdf5f56e?q=80&w=988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 5,
+                name: "Lemon Blueberry Cake",
+                price: 399,
+                category: "pastries",
+                flavor: "vanilla",
+                description: "Refreshing lemon cake studded with juicy blueberries and topped with lemon cream cheese frosting.",
+                ingredients: ["Flour", "Sugar", "Lemon", "Blueberries", "Cream Cheese", "Butter", "Eggs"],
+                featured: false,
+                stock: 12,
+                image: "https://images.unsplash.com/photo-1696152025765-23e16027bb3a?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 6,
+                name: "Custom Birthday Cake",
+                price: 550,
+                category: "cakes",
+                flavor: "chocolate",
+                description: "Personalized birthday cake with your choice of flavors, fillings, and decorations.",
+                ingredients: ["Custom ingredients based on selection"],
+                featured: false,
+                stock: 20,
+                image: "https://plus.unsplash.com/premium_photo-1741194732561-18644fca7d90?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 7,
+                name: "Carrot Cake Delight",
+                price: 399,
+                category: "pastries",
+                flavor: "cheesecake",
+                description: "Spiced carrot cake with walnuts, raisins, and classic cream cheese frosting.",
+                ingredients: ["Flour", "Sugar", "Carrots", "Walnuts", "Raisins", "Cream Cheese", "Cinnamon"],
+                featured: false,
+                stock: 9,
+                image: "https://plus.unsplash.com/premium_photo-1676914697101-56a0e7f1f1ec?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 8,
+                name: "Cheesecake Supreme",
+                price: 489,
+                category: "cupcakes",
+                flavor: "cheesecake",
+                description: "Rich, creamy New York-style cheesecake with graham cracker crust and fresh berry topping.",
+                ingredients: ["Cream Cheese", "Sugar", "Eggs", "Graham Crackers", "Butter", "Sour Cream", "Vanilla Extract"],
+                featured: true,
+                stock: 7,
+                image: "https://plus.unsplash.com/premium_photo-1722686461601-b2a018a4213b?q=80&w=1255&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 9,
+                name: "Classic Vanilla Celebration",
+                price: 359,
+                category: "cakes",
+                flavor: "vanilla",
+                description: "Moist vanilla cake with vanilla buttercream frosting, perfect for any celebration.",
+                ingredients: ["Flour", "Sugar", "Butter", "Eggs", "Vanilla Bean", "Milk", "Baking Powder"],
+                featured: false,
+                stock: 15,
+                image: "https://images.unsplash.com/photo-1685956801990-57ef97b17d45?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 10,
+                name: "Glazed Chocolate Donut",
+                price: 150,
+                category: "donuts",
+                flavor: "chocolate",
+                description: "Freshly made donuts with a rich chocolate glaze.",
+                ingredients: ["Flour", "Sugar", "Cocoa Powder", "Milk", "Butter", "Eggs", "Chocolate Glaze"],
+                featured: false,
+                stock: 20,
+                image: "https://images.unsplash.com/photo-1693167064408-6a2738932da1?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 11,
+                name: "Strawberry Jam Donut",
+                price: 120,
+                category: "donuts",
+                flavor: "strawberry",
+                description: "Fluffy donuts filled with sweet strawberry jam and coated in sugar.",
+                ingredients: ["Flour", "Sugar", "Strawberries", "Butter", "Eggs", "Vanilla Extract"],
+                featured: true,
+                stock: 15,
+                image: "https://veenaazmanov.com/wp-content/uploads/2018/11/Jelly-Donuts-Doughnut-with-Strawberry-Jelly5.jpg"
+            },
+            {
+                id: 12,
+                name: "Chocolate Fudge Cupcake",
+                price: 220,
+                category: "cupcakes",
+                flavor: "chocolate",
+                description: "Rich and fudgy chocolate cupcakes topped with chocolate ganache and sprinkles.",
+                ingredients: ["Flour", "Sugar", "Cocoa Powder", "Butter", "Eggs", "Milk", "Chocolate Ganache"],
+                featured: true,
+                stock: 10,
+                image: "https://plus.unsplash.com/premium_photo-1664300258641-f21dd7792f35?q=80&w=986&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 13,
+                name: "Vanilla Bean Cupcake",
+                price: 180,
+                category: "cupcakes",
+                flavor: "vanilla",
+                description: "Fluffy vanilla cupcakes with vanilla buttercream frosting.",
+                ingredients: ["Flour", "Sugar", "Vanilla Bean", "Butter", "Eggs", "Milk"],
+                featured: false,
+                stock: 25,
+                image: "https://plus.unsplash.com/premium_photo-1716152294077-0e4ddf41c4bf?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 14,
+                name: "Apple Cinnamon Pastry",
+                price: 250,
+                category: "pastries",
+                flavor: "cinnamon",
+                description: "Flaky pastry filled with spiced apples and cinnamon, topped with powdered sugar.",
+                ingredients: ["Flour", "Sugar", "Apple", "Cinnamon", "Butter", "Eggs"],
+                featured: false,
+                stock: 18,
+                image: "https://images.unsplash.com/photo-1703876087705-818f2af21c65?q=80&w=1162&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 15,
+                name: "Chocolate Sprinkle Donut",
+                price: 140,
+                category: "donuts",
+                flavor: "chocolate",
+                description: "Soft donut with a rich chocolate glaze and colorful sprinkles on top.",
+                ingredients: ["Flour", "Sugar", "Cocoa Powder", "Butter", "Eggs", "Sprinkles", "Chocolate Glaze"],
+                featured: true,
+                stock: 18,
+                image: "https://brokenovenbaking.com/wp-content/uploads/2022/04/chocolate-donuts-with-sprinkles-11.jpg"
+            },
+            {
+                id: 16,
+                name: "Vanilla Glazed Donut",
+                price: 130,
+                category: "donuts",
+                flavor: "vanilla",
+                description: "Classic donut with smooth vanilla glaze and a fluffy interior.",
+                ingredients: ["Flour", "Sugar", "Butter", "Eggs", "Vanilla Extract", "Milk"],
+                featured: false,
+                stock: 22,
+                image: "https://www.errenskitchen.com/wp-content/uploads/2020/01/Baked-Vanilla-Donuts-1-4.jpg"
+            },
+            {
+                id: 17,
+                name: "Blueberry Donut",
+                price: 160,
+                category: "donuts",
+                flavor: "blueberry",
+                description: "Soft donut filled with blueberry jam and topped with a light glaze.",
+                ingredients: ["Flour", "Sugar", "Blueberry Jam", "Butter", "Eggs", "Milk"],
+                featured: false,
+                stock: 17,
+                image: "https://inbloombakery.com/wp-content/uploads/2022/05/Blueberry-Cake-Donuts-12.jpg"
+            },
+            {
+                id: 18,
+                name: "Chocolate Pastry",
+                price: 270,
+                category: "pastries",
+                flavor: "chocolate",
+                description: "Crispy puff pastry filled with rich chocolate and dusted with cocoa.",
+                ingredients: ["Flour", "Sugar", "Butter", "Chocolate", "Eggs", "Cocoa Powder"],
+                featured: false,
+                stock: 14,
+                image: "https://images.unsplash.com/photo-1708175313814-679cb8e90d2e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                id: 19,
+                name: "Vanilla Cream Pastry",
+                price: 260,
+                category: "pastries",
+                flavor: "vanilla",
+                description: "Flaky pastry filled with sweet vanilla cream and topped with powdered sugar.",
+                ingredients: ["Flour", "Sugar", "Vanilla Cream", "Butter", "Eggs", "Milk"],
+                featured: false,
+                stock: 12,
+                image: "https://victoriajunction.in/wp-content/uploads/2023/08/Vanilla-Pastry-600x600.jpeg"
+            },
+            {
+                id: 20,
+                name: "Strawberry Pastry",
+                price: 280,
+                category: "pastries",
+                flavor: "strawberry",
+                description: "Delicate pastry layered with strawberry filling and whipped cream.",
+                ingredients: ["Flour", "Sugar", "Strawberries", "Whipped Cream", "Butter", "Eggs"],
+                featured: true,
+                stock: 10,
+                image: "https://abicake.com/cdn/shop/files/Strawberry-Pastries.png?v=1703506485"
+            }
+
+        ];
+
+
+
+        // Shopping cart array
+        let cart = [];
+
+        // Current user data - simulate login functionality
+        let currentUser = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize mobile menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Initialize tabs on login/register page
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const loginContent = document.getElementById('login-content');
+            const registerContent = document.getElementById('register-content');
+
+            loginTab.addEventListener('click', function () {
+                loginTab.classList.add('bg-pink-100', 'text-pink-600', 'border-b-2', 'border-pink-500');
+                loginTab.classList.remove('text-gray-500', 'hover:text-gray-700');
+                registerTab.classList.remove('bg-pink-100', 'text-pink-600', 'border-b-2', 'border-pink-500');
+                registerTab.classList.add('text-gray-500', 'hover:text-gray-700');
+
+                loginContent.classList.add('active');
+                registerContent.classList.remove('active');
+            });
+
+            registerTab.addEventListener('click', function () {
+                registerTab.classList.add('bg-pink-100', 'text-pink-600', 'border-b-2', 'border-pink-500');
+                registerTab.classList.remove('text-gray-500', 'hover:text-gray-700');
+                loginTab.classList.remove('bg-pink-100', 'text-pink-600', 'border-b-2', 'border-pink-500');
+                loginTab.classList.add('text-gray-500', 'hover:text-gray-700');
+
+                registerContent.classList.add('active');
+                loginContent.classList.remove('active');
+            });
+
+            // Initialize admin dashboard tabs
+            const adminTabs = document.querySelectorAll('.admin-tab');
+            const adminContents = document.querySelectorAll('.admin-tab-content');
+
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // Remove active class from all tabs
+                    adminTabs.forEach(t => {
+                        t.classList.remove('active', 'border-pink-500', 'text-pink-600');
+                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                    });
+
+                    // Add active class to clicked tab
+                    this.classList.add('active', 'border-pink-500', 'text-pink-600');
+                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+
+                    // Hide all content
+                    adminContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+
+                    // Show corresponding content
+                    const contentId = this.id.replace('-tab', '-content');
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+
+            // Load featured cakes on homepage
+            loadFeaturedCakes();
+
+            // Load all cakes in catalog
+            loadAllCakes();
+
+            // Initialize filter button event
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener('click', filterCakes);
+            }
+
+            // Initialize contact form submission
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    alert('Thank you for your message! We will get back to you soon.');
+                    contactForm.reset();
+                });
+            }
+
+            // Update cart count
+            updateCartCount();
+        });
+
+        // Show page function
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.add('hidden');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+
+            // If showing cart or checkout, update summary
+            if (pageId === 'cart') {
+                updateCartItems();
+                updateCartSummary();
+            } else if (pageId === 'checkout') {
+                updateCheckoutItems();
+                updateCheckoutSummary();
+            }
+        }
+
+        // Load featured cakes on homepage
+        function loadFeaturedCakes() {
+            const featuredContainer = document.querySelector('#home .grid');
+            if (!featuredContainer) return;
+
+            // Clear container
+            featuredContainer.innerHTML = '';
+
+            // Filter for featured cakes
+            const featuredCakes = cakesData.filter(cake => cake.featured);
+
+            // Add featured cakes to container
+            featuredCakes.forEach(cake => {
+                featuredContainer.innerHTML += `
+                    <div class="cake-card bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div class="h-48 bg-pink-100 flex items-center justify-center overflow-hidden">
+                             <img src="${cake.image}" alt="${cake.name}" class="object-cover h-full w-full" />
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">${cake.name}</h3>
+                            <p class="text-gray-600 mb-4">${cake.description.substring(0, 100)}...</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-pink-500 font-bold">₹${cake.price.toFixed(2)}</span>
+                                <button onclick="viewCake(${cake.id})" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Load all cakes in catalog
+        function loadAllCakes() {
+            const cakesGrid = document.getElementById('cakes-grid');
+            if (!cakesGrid) return;
+
+            // Clear container
+            cakesGrid.innerHTML = '';
+
+            // Add cakes to grid
+            cakesData.forEach(cake => {
+                cakesGrid.innerHTML += `
+                    <div class="cake-card bg-white rounded-lg shadow-sm overflow-hidden" 
+                        data-category="${cake.category}" 
+                        data-flavor="${cake.flavor}" 
+                        data-price="${cake.price}">
+                        <div class="h-48 bg-pink-100 flex items-center justify-center overflow-hidden">
+                             <img src="${cake.image}" alt="${cake.name}" class="object-cover h-full w-full" />
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">${cake.name}</h3>
+                            <div class="flex space-x-2 mb-2">
+                                <span class="bg-pink-100 text-pink-600 text-xs px-2 py-1 rounded">${cake.category}</span>
+                                <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded">${cake.flavor}</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">${cake.description.substring(0, 80)}...</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-pink-500 font-bold">₹${cake.price.toFixed(2)}</span>
+                                <button onclick="viewCake(${cake.id})" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Filter cakes based on selected criteria
+        function filterCakes() {
+            const categoryFilter = document.getElementById('category-filter').value;
+            const flavorFilter = document.getElementById('flavor-filter').value;
+            const priceFilter = document.getElementById('price-filter').value;
+
+            const allCakes = document.querySelectorAll('#cakes-grid .cake-card');
+
+            allCakes.forEach(cake => {
+                const category = cake.getAttribute('data-category');
+                const flavor = cake.getAttribute('data-flavor');
+                const price = parseFloat(cake.getAttribute('data-price'));
+
+                let showCake = true;
+
+                // Category filter
+                if (categoryFilter !== 'all' && category !== categoryFilter) {
+                    showCake = false;
+                }
+
+                // Flavor filter
+                if (flavorFilter !== 'all' && flavor !== flavorFilter) {
+                    showCake = false;
+                }
+
+                // Price filter (updated for INR)
+                if (priceFilter !== 'all') {
+                    if (priceFilter === '0-200' && (price < 0 || price > 200)) {
+                        showCake = false;
+                    } else if (priceFilter === '200-500' && (price < 200 || price > 500)) {
+                        showCake = false;
+                    } else if (priceFilter === '500-1000' && (price < 500 || price > 1000)) {
+                        showCake = false;
+                    } else if (priceFilter === '1000+' && price < 1000) {
+                        showCake = false;
+                    }
+                }
+
+                // Show or hide cake
+                cake.style.display = showCake ? 'block' : 'none';
+            });
+        }
+
+
+        // View cake details
+        function viewCake(cakeId) {
+            const cake = cakesData.find(c => c.id === cakeId);
+            if (!cake) return;
+
+            const modal = document.getElementById('cake-modal');
+            const modalContent = document.getElementById('cake-modal-content');
+
+            modalContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                       <div class="h-48 bg-pink-100 flex items-center justify-center overflow-hidden">
+                             <img src="${cake.image}" alt="${cake.name}" class="object-cover h-full w-full" />
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">${cake.name}</h2>
+                        <div class="flex space-x-2 mb-4">
+                            <span class="bg-pink-100 text-pink-600 text-xs px-2 py-1 rounded">${cake.category}</span>
+                            <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded">${cake.flavor}</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">${cake.description}</p>
+                        <div class="mb-4">
+                            <h3 class="font-bold text-gray-800 mb-2">Ingredients:</h3>
+                            <ul class="list-disc pl-5 text-gray-600">
+                                ${cake.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="mb-6">
+                            <p class="text-gray-600">Availability: <span class="font-medium ${cake.stock > 0 ? 'text-green-600' : 'text-red-600'}">${cake.stock > 0 ? 'In Stock' : 'Out of Stock'}</span></p>
+                            <p class="text-2xl font-bold text-pink-500 mt-2">₹${cake.price.toFixed(2)}</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex border border-gray-300 rounded">
+                                <button class="px-3 py-1 bg-gray-100" onclick="updateQuantity('decrease')">-</button>
+                                <input type="number" min="1" value="1" id="cake-quantity" class="w-12 text-center" readonly>
+                                <button class="px-3 py-1 bg-gray-100" onclick="updateQuantity('increase')">+</button>
+                            </div>
+                            <button onclick="addToCart(${cake.id})" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded transition duration-300 flex-grow">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        // Close cake details modal
+        function closeModal() {
+            const modal = document.getElementById('cake-modal');
+            modal.classList.add('hidden');
+        }
+
+        // Update quantity in cake modal
+        function updateQuantity(action) {
+            const quantityInput = document.getElementById('cake-quantity');
+            let quantity = parseInt(quantityInput.value);
+
+            if (action === 'increase') {
+                quantity++;
+            } else if (action === 'decrease' && quantity > 1) {
+                quantity--;
+            }
+
+            quantityInput.value = quantity;
+        }
+
+        // Add cake to cart
+        function addToCart(cakeId) {
+            const cake = cakesData.find(c => c.id === cakeId);
+            if (!cake) return;
+
+            const quantity = parseInt(document.getElementById('cake-quantity').value);
+
+            // Check if cake is already in cart
+            const existingItem = cart.find(item => item.id === cakeId);
+
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    id: cake.id,
+                    name: cake.name,
+                    price: cake.price,
+                    quantity: quantity
+                });
+            }
+
+            // Update cart count
+            updateCartCount();
+
+            // Close modal
+            closeModal();
+
+            // Show success message
+            alert(`${cake.name} has been added to your cart!`);
+        }
+
+        // Update cart count in header
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
+            cartCount.textContent = totalItems;
+
+            // Enable/disable checkout button
+            const checkoutButton = document.getElementById('checkout-button');
+            if (checkoutButton) {
+                checkoutButton.disabled = totalItems === 0;
+            }
+        }
+
+        // Update cart items display
+        function updateCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                cartItemsContainer.innerHTML = '';
+                return;
+            }
+
+            emptyCartMessage.style.display = 'none';
+            cartItemsContainer.innerHTML = '';
+
+            cart.forEach(item => {
+                const cake = cakesData.find(c => c.id === item.id);
+
+                cartItemsContainer.innerHTML += `
+                    <div class="flex flex-col md:flex-row items-center py-4 border-b" data-item-id="${item.id}">
+                        <div class="w-24 h-24 bg-pink-200 rounded flex items-center justify-center mr-4 mb-4 md:mb-0">
+                            <p class="text-pink-600 text-center text-xs">Cake image</p>
+                        </div>
+                        <div class="flex-grow mb-4 md:mb-0">
+                            <h3 class="font-bold text-gray-800">${item.name}</h3>
+                            <p class="text-gray-600 text-sm">${cake.flavor} flavor</p>
+                        </div>
+                        <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                            <div class="flex border border-gray-300 rounded">
+                                <button class="px-2 py-1 bg-gray-100" onclick="updateCartItemQuantity(${item.id}, 'decrease')">-</button>
+                                <span class="w-8 text-center py-1">${item.quantity}</span>
+                                <button class="px-2 py-1 bg-gray-100" onclick="updateCartItemQuantity(${item.id}, 'increase')">+</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="font-bold text-gray-800 w-24 text-right">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Update cart item quantity
+        function updateCartItemQuantity(itemId, action) {
+            const item = cart.find(item => item.id === itemId);
+            if (!item) return;
+
+            if (action === 'increase') {
+                item.quantity++;
+            } else if (action === 'decrease' && item.quantity > 1) {
+                item.quantity--;
+            }
+
+            updateCartItems();
+            updateCartSummary();
+            updateCartCount();
+        }
+
+        // Remove item from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+
+            updateCartItems();
+            updateCartSummary();
+            updateCartCount();
+        }
+
+        // Update cart summary
+        function updateCartSummary() {
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = subtotal > 0 ? 10 : 0; // $10 shipping fee, free over $100
+            const tax = subtotal * 0.08; // 8% tax
+            const total = subtotal + shipping + tax;
+
+            document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('cart-shipping').textContent = `₹${shipping.toFixed(2)}`;
+            document.getElementById('cart-tax').textContent = `₹${tax.toFixed(2)}`;
+            document.getElementById('cart-total').textContent = `₹${total.toFixed(2)}`;
+        }
+
+        // Proceed to checkout
+        function proceedToCheckout() {
+            showPage('checkout');
+            updateCheckoutItems();
+            updateCheckoutSummary();
+        }
+
+        // Update checkout items display
+        function updateCheckoutItems() {
+            const checkoutItemsContainer = document.getElementById('checkout-items');
+
+            checkoutItemsContainer.innerHTML = '';
+
+            cart.forEach(item => {
+                checkoutItemsContainer.innerHTML += `
+                    <div class="flex justify-between items-center py-2 border-b">
+                        <span class="text-gray-700">${item.name} x ${item.quantity}</span>
+                        <span class="font-medium">$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Update checkout summary
+        function updateCheckoutSummary() {
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = subtotal > 0 ? 10 : 0; // $10 shipping fee, free over $100
+            const tax = subtotal * 0.08; // 8% tax
+            const total = subtotal + shipping + tax;
+
+            document.getElementById('checkout-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('checkout-shipping').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('checkout-tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('checkout-total').textContent = `$${total.toFixed(2)}`;
+
+            // Also update the order confirmation page
+            document.getElementById('order-total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Place order
+        function placeOrder() {
+            // Simulate order processing
+            const orderNumber = Math.floor(Math.random() * 10000);
+            const today = new Date();
+            const deliveryDate = new Date(today);
+            deliveryDate.setDate(today.getDate() + 3);
+
+            // Format dates
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const orderDate = today.toLocaleDateString('en-US', options);
+            const estDelivery = deliveryDate.toLocaleDateString('en-US', options);
+
+            // Update order confirmation page
+            document.getElementById('order-number').textContent = orderNumber;
+            document.getElementById('order-date').textContent = orderDate;
+            document.getElementById('order-delivery').textContent = estDelivery;
+
+            // Clear cart
+            cart = [];
+            updateCartCount();
+
+            // Show order confirmation
+            showPage('order-confirmation');
+        }
+
+        // Track order (placeholder)
+        function trackOrder() {
+            alert('Order tracking feature would be implemented in a real backend. This is a simulation.');
+        }
+
+        // Handle login
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Simulate login - check admin credentials
+            if (email === 'admin@example.com' && password === 'admin123') {
+                currentUser = {
+                    id: 1,
+                    name: 'Admin User',
+                    email: 'admin@example.com',
+                    role: 'admin'
+                };
+
+                // Update user account link
+                document.getElementById('user-account-link').innerHTML = '<i class="fas fa-user-shield"></i>';
+
+                // Show admin dashboard
+                showPage('admin');
+
+                // Reset form
+                document.getElementById('login-form').reset();
+            } else if (email && password) {
+                // Simulate regular user login
+                currentUser = {
+                    id: 2,
+                    name: 'John Doe',
+                    email: email,
+                    role: 'user'
+                };
+
+                // Update user account link
+                document.getElementById('user-account-link').innerHTML = '<i class="fas fa-user-check"></i>';
+
+                // Go to homepage
+                showPage('home');
+
+                // Reset form
+                document.getElementById('login-form').reset();
+
+                alert('Welcome back, ' + currentUser.name + '!');
+            } else {
+                alert('Please enter email and password');
+            }
+        }
+    </script>
+</body>
+
+</html>
