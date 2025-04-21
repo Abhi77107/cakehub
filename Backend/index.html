@@ -540,7 +540,7 @@
 
                         <!-- Login Form -->
                         <div id="login-content" class="tab-content active">
-                            <form id="login-form" class="space-y-4">
+                            <form onsubmit="handleLogin()" id="login-form" class="space-y-4">
                                 <div>
                                     <label class="block text-gray-700 mb-2">Email Address</label>
                                     <input type="email" id="login-email"
@@ -567,38 +567,42 @@
 
                         <!-- Register Form -->
                         <div id="register-content" class="tab-content">
-                            <form id="register-form" class="space-y-4">
+                            <form onsubmit="handleSignup()" id="register-form" class="space-y-4">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-gray-700 mb-2">First Name</label>
-                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                        <input type="text" name="firstName"
+                                            class="w-full p-2 border border-gray-300 rounded" required>
                                     </div>
                                     <div>
                                         <label class="block text-gray-700 mb-2">Last Name</label>
-                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                        <input type="text" name="lastName"
+                                            class="w-full p-2 border border-gray-300 rounded" required>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-gray-700 mb-2">Email Address</label>
-                                    <input type="email" class="w-full p-2 border border-gray-300 rounded" required>
+                                    <input type="email" name="email" class="w-full p-2 border border-gray-300 rounded"
+                                        required>
                                 </div>
                                 <div>
                                     <label class="block text-gray-700 mb-2">Phone Number</label>
-                                    <input type="tel" class="w-full p-2 border border-gray-300 rounded">
+                                    <input type="tel" name="phone" class="w-full p-2 border border-gray-300 rounded">
                                 </div>
                                 <div>
                                     <label class="block text-gray-700 mb-2">Password</label>
-                                    <input type="password" class="w-full p-2 border border-gray-300 rounded" required>
+                                    <input type="password" name="password"
+                                        class="w-full p-2 border border-gray-300 rounded" required>
                                 </div>
                                 <div>
                                     <label class="block text-gray-700 mb-2">Confirm Password</label>
-                                    <input type="password" class="w-full p-2 border border-gray-300 rounded" required>
+                                    <input type="password" name="confirmPassword"
+                                        class="w-full p-2 border border-gray-300 rounded" required>
                                 </div>
                                 <div class="flex items-center">
                                     <input type="checkbox" class="h-4 w-4 text-pink-500" required>
                                     <label class="ml-2 text-sm text-gray-600">I agree to the Terms of Service and
-                                        Privacy
-                                        Policy</label>
+                                        Privacy Policy</label>
                                 </div>
                                 <button type="submit"
                                     class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition duration-300">
@@ -606,6 +610,7 @@
                                 </button>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -671,78 +676,35 @@
                         <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                             <h2 class="text-xl font-bold text-gray-800 mb-4">Shipping Information</h2>
                             <form id="shipping-form" class="space-y-4">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-gray-700 mb-2">First Name</label>
-                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 mb-2">Last Name</label>
-                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-gray-700 mb-2">Email Address</label>
-                                    <input type="email" class="w-full p-2 border border-gray-300 rounded" required>
-                                </div>
-                                <div>
-                                    <label class="block text-gray-700 mb-2">Phone Number</label>
-                                    <input type="tel" class="w-full p-2 border border-gray-300 rounded" required>
-                                </div>
                                 <div>
                                     <label class="block text-gray-700 mb-2">Address</label>
-                                    <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    <input id="customer-address" name="address" type="text"
+                                        class="w-full p-2 border border-gray-300 rounded" required>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
                                         <label class="block text-gray-700 mb-2">City</label>
-                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                        <input id="customer-city" name="city" type="text"
+                                            class="w-full p-2 border border-gray-300 rounded" required>
                                     </div>
                                     <div>
                                         <label class="block text-gray-700 mb-2">State</label>
-                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                        <input id="customer-state" name="state" type="text"
+                                            class="w-full p-2 border border-gray-300 rounded" required>
                                     </div>
                                     <div>
                                         <label class="block text-gray-700 mb-2">ZIP Code</label>
-                                        <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-gray-700 mb-2">Delivery Instructions (Optional)</label>
-                                    <textarea rows="2" class="w-full p-2 border border-gray-300 rounded"></textarea>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-                            <h2 class="text-xl font-bold text-gray-800 mb-4">Payment Method</h2>
-                            <form id="payment-form" class="space-y-4">
-                                <div>
-                                    <label class="block text-gray-700 mb-2">Card Number</label>
-                                    <input type="text" placeholder="XXXX XXXX XXXX XXXX"
-                                        class="w-full p-2 border border-gray-300 rounded" required>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div class="md:col-span-2">
-                                        <label class="block text-gray-700 mb-2">Expiration Date</label>
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <input type="text" placeholder="MM"
-                                                class="w-full p-2 border border-gray-300 rounded" required>
-                                            <input type="text" placeholder="YY"
-                                                class="w-full p-2 border border-gray-300 rounded" required>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 mb-2">CVV</label>
-                                        <input type="text" placeholder="XXX"
+                                        <input id="customer-zip-code" name="zipCode" type="text"
                                             class="w-full p-2 border border-gray-300 rounded" required>
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 mb-2">Name on Card</label>
-                                    <input type="text" class="w-full p-2 border border-gray-300 rounded" required>
+                                    <label class="block text-gray-700 mb-2">Delivery Instructions (Optional)</label>
+                                    <textarea id="customer-delivery-instructions" name="deliveryInstructions" rows="2"
+                                        class="w-full p-2 border border-gray-300 rounded"></textarea>
                                 </div>
                             </form>
+
                         </div>
                     </div>
 
@@ -1509,7 +1471,138 @@
 
         ];
 
+        const BASE_URL = "http://localhost:3000/api";
 
+        async function fetchUserProfile() {
+            try {
+                const response = await fetch(`${BASE_URL}/auth/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('user', JSON.stringify(data.user)); 
+                    updateNavbar();
+                } else {
+                    console.error('Failed to fetch user profile:', response.statusText);
+                    localStorage.removeItem('user'); // Clear user data if fetching fails
+                }
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+                localStorage.removeItem('user'); // Clear user data on error
+            }
+        }
+
+        fetchUserProfile();
+
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                    credentials: 'include',
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Login successful!');
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    updateNavbar();
+                    showPage('home');
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+
+        async function handleSignup() {
+            const form = document.getElementById('register-form');
+            const firstName = form.elements['firstName'].value;
+            const lastName = form.elements['lastName'].value;
+            const email = form.elements['email'].value;
+            const phone = form.elements['phone'].value;
+            const password = form.elements['password'].value;
+            const confirmPassword = form.elements['confirmPassword'].value;
+
+            if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ firstName, lastName, email, phone, password }),
+                    credentials: 'include',
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Signup successful! Please log in.');
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    updateNavbar();
+                    showPage('login');
+                } else {
+                    alert(data.message || 'Signup failed');
+                }
+            } catch (error) {
+                console.error('Error during signup:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleLogin();
+            });
+
+            document.getElementById('register-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleSignup();
+            });
+        });
+
+        function updateNavbar() {
+            const userAccountLink = document.getElementById('user-account-link');
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (user && user.firstName) {
+                userAccountLink.innerHTML = `Hi, ${user.firstName}`;
+                userAccountLink.onclick = () => alert('Account settings coming soon!');
+            } else {
+                userAccountLink.innerHTML = `<i class="fas fa-user"></i>`;
+                userAccountLink.onclick = () => showPage('login');
+            }
+        }
 
         // Shopping cart array
         let cart = [];
@@ -1982,80 +2075,81 @@
             document.getElementById('order-total').textContent = `₹${total.toFixed(2)}`;
         }
 
-        // Place order
-        function placeOrder() {
-            // Simulate order processing
-            const orderNumber = Math.floor(Math.random() * 10000);
-            const today = new Date();
-            const deliveryDate = new Date(today);
-            deliveryDate.setDate(today.getDate() + 3);
-
-            // Format dates
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const orderDate = today.toLocaleDateString('en-US', options);
-            const estDelivery = deliveryDate.toLocaleDateString('en-US', options);
-
-            // Update order confirmation page
-            document.getElementById('order-number').textContent = orderNumber;
-            document.getElementById('order-date').textContent = orderDate;
-            document.getElementById('order-delivery').textContent = estDelivery;
-
-            // Clear cart
-            cart = [];
-            updateCartCount();
-
-            // Show order confirmation
-            showPage('order-confirmation');
-        }
-
         // Track order (placeholder)
         function trackOrder() {
             alert('Order tracking feature would be implemented in a real backend. This is a simulation.');
         }
-
         // Handle login
-        function handleLogin() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
 
-            // Simulate login - check admin credentials
-            if (email === 'admin@example.com' && password === 'admin123') {
-                currentUser = {
-                    id: 1,
-                    name: 'Admin User',
-                    email: 'admin@example.com',
-                    role: 'admin'
-                };
+        async function placeOrder() {
 
-                // Update user account link
-                document.getElementById('user-account-link').innerHTML = '<i class="fas fa-user-shield"></i>';
+            const userData = localStorage.getItem("user") || localStorage.getItem("token");
+            if (!userData) {
+                alert("Please log in first to place an order.");
+                return;
+            }
 
-                // Show admin dashboard
-                showPage('admin');
+            const user = JSON.parse(userData);
 
-                // Reset form
-                document.getElementById('login-form').reset();
-            } else if (email && password) {
-                // Simulate regular user login
-                currentUser = {
-                    id: 2,
-                    name: 'John Doe',
-                    email: email,
-                    role: 'user'
-                };
+            // Collect customer details
+            const customer = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phone: user.phone,
+                address: document.getElementById('customer-address').value,
+                city: document.getElementById('customer-city').value,
+                state: document.getElementById('customer-state').value,
+                zipCode: document.getElementById('customer-zip-code').value,
+                deliveryInstructions: document.getElementById('customer-delivery-instructions').value || '',
+            };
 
-                // Update user account link
-                document.getElementById('user-account-link').innerHTML = '<i class="fas fa-user-check"></i>';
+            const items = cart.map(item => ({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+            }));
 
-                // Go to homepage
-                showPage('home');
+            const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+            const shipping = subtotal > 1000 ? 0 : 50;
+            const tax = subtotal * 0.08;
+            const total = subtotal + shipping + tax;
 
-                // Reset form
-                document.getElementById('login-form').reset();
+            const summary = {
+                subtotal,
+                shipping,
+                tax,
+                total,
+            };
 
-                alert('Welcome back, ' + currentUser.name + '!');
-            } else {
-                alert('Please enter email and password');
+            const orderData = {
+                customer,
+                items,
+                summary,
+            };
+
+            try {
+                const response = await fetch(`${BASE_URL}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Order placed successfully!');
+                    cart = [];
+                    updateCartCount();
+                    showPage('home');
+                } else {
+                    alert(data.message || 'Failed to place order. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                alert('An error occurred while placing the order. Please try again.');
             }
         }
     </script>
