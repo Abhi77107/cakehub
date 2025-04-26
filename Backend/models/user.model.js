@@ -27,6 +27,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order'
+    }],
+    totalSpent: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true
